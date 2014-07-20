@@ -1,62 +1,63 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
-   "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="en">
-  <head>
-	  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	  <title>new.html</title>
-	  <%= javascript_include_tag :defaults %>
-	  <%= yield :head %>
-  </head>
-  <body>
-  <%= yield %>
-  
-  <h1>Carga de nuevo comprobante</h1>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>new.html</title>
+  <%= javascript_include_tag :defaults %>
+  <%= yield :head %>
+</head>
+<body>
 
-  <%= form_for @transaction,:html => {:multipart => true} do |transac| %>
-      <!-- tratamiento de error-->
-      <% if @transaction.errors.any? %>
-          <div id="error_explanation">
-            <h3><%= @transaction.errors.count %> error/es- no es posible guardar el comprobante</h3>
-            <ul>
-              <% @transaction.errors.each_with_index do |msg, i| %>
-                  <li><%= msg[1] %></li>
-              <% end %>
-            </ul>
+<%= yield %>
+<div class="container">
+
+<h2>Carga de nuevo comprobante</h2>
+
+<%= form_for @transaction,:html => {:multipart => true} do |transac| %>
+    <!-- tratamiento de error-->
+    <% if @transaction.errors.any? %>
+
+          <div class="bg-danger">
+          <h3> No es posible guardar el comprobante</h3>
+          <ul>
+            <% @transaction.errors.each_with_index do |msg, i| %>
+                <li><%= msg[1] %></li>
+            <% end %>
+          </ul>
           </div>
-          <% end %><!--fin del tratamiento de errores-->
+        <% end %><!--fin del tratamiento de errores-->
+<div class="row">
+  <div class="col-md-6 formStyle">
+    <form role="form">
+      <div class="form-group">
+        <p>
+         <%= transac.label :Servicio %> <%= transac.text_field :service %>
+        </p>
 
-  <p>
-    <%= transac.label :Servicio %><br>
-    <%= transac.text_field :service %>
-  </p>
- 
-  <p>
-  	<%= transac.label :Fecha%>
-    <%= transac.date_select(:date, order: [:day, :month, :year] ) %>
-  </p>
- 
-  <p>
-  	<%= transac.label :Comentarios%>
-    <%= transac.text_area :comments %><br>
-    
-  </p>
+        <p>
+          <%= transac.label :Fecha%> <%= transac.date_select(:date, order: [:day, :month, :year] ) %>
+        </p>
 
-      <p>
-        <%= transac.label :image_name%>
-        <%= transac.file_field :image_name %><br>
+        <p>
+          <%= transac.label :Comentarios%> <%= transac.text_area :comments %><br>
+        </p>
 
-      </p>
+        <p>
+          <%= transac.label :image_name%> <%= transac.file_field :image_name %><br>
+        </p>
 
+        <p>
+          <span class="btnSubmit"> <%= transac.submit %></span>
+        </p>
+      </div>
+</form>
+    <p>
+      <%= button_to "Cancelar", transactions_path, :class => "btn btn-default", :method => :get  %>
+    </p>
+  </div>
 
-      <p>
-    <%= transac.submit %>
+</div>
+</div>
 
-  </p>
 
 <% end %>
-<p>
-  <%= button_to "Cancelar", transactions_path, :class => "button", :method => :get  %>
-</p>
- 
-  </body>
+</body>
 </html>

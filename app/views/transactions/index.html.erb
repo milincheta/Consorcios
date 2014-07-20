@@ -1,6 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
-   "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="en">
   <head>
 	  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	  <title>index.html</title>
@@ -10,32 +7,36 @@
 	  <%= javascript_include_tag :defaults %>
 	  <%= yield :head %>
   </head>
-  <h2>Comprobante registrados.</h2>
- 
+
  
   <body>
-  <!--border="1" cellpadding="1" cellspacing="1" style="width: 500px;"-->
-      	<table class="table table-bordered">
+  <div class="container">
+    <h2>Comprobantes registrados</h2>
+
+       	<table class="table table-hover">
 			<thead>
-				<tr class="active">
+				<tr>
 					<th scope="col">Servicio</th>
 					<th scope="col">Fecha de Pago</th>
 					<th scope="col">Comentarios</th>
-				</tr>
+                    <th scope="col">Acciones</th>
+                </tr>
 			</thead>
 			<tbody>
   <% @transaction.each do |t| %>
   <tr>
-  	<td class="danger"><%= t.service %></td>
-	<td class="danger"><%= if (t.date.to_s.length >0) then t.date.to_formatted_s(:long) end %></td>
-  	<td class="danger"><%= t.comments %></td>
+  	<td><%= t.service %></td>
+	<td><%= if (t.date.to_s.length >0) then t.date.to_formatted_s(:long) end %></td>
+  	<td><%= t.comments %></td>
   	<td><%= link_to('Editar',edit_transaction_path(t) ) %></td>
-
-  	   	</tr>
-  	<% end %>
+  </tr>
+  <% end %>
 			</tbody>
 		</table>
-<%= link_to 'Nuevo comprobante', new_transaction_path %>   	  	
-  
+
+<p>
+<%= button_to "Nuevo", new_transaction_path, :class => "btn btn-primary", :method => :get  %>
+</p>
+  </div>
   </body>
 </html>
